@@ -1,0 +1,22 @@
+# Samsung_35E_1C
+# Chemistry: NCA/graphite
+# Nominal capacity: 3.5 Ah
+# Protocol: 1C charge / 1C discharge
+# Temperature: 25 degC
+# Cycles to 80 pct retention: 370
+# DOI: 10.1016/j.jpowsour.2019.01.062
+"# Source: Lee et al., J. Power Sources 415 (2019)"
+# NOTE: Digitised from published figure; not a raw-data download. See src/reference_data.py.
+cycle,capacity_retention
+1,1.000
+50,0.988
+100,0.970
+150,0.952
+200,0.932
+250,0.910
+300,0.885
+350,0.858
+370,0.848
+400,0.828
+420,0.813
+440,0.798

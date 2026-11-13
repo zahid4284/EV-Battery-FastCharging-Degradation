@@ -1,0 +1,22 @@
+# CALCE_CS2_2C
+# Chemistry: LCO/graphite
+# Nominal capacity: 1.1 Ah
+# Protocol: 2C charge / 1C discharge
+# Temperature: 25 degC
+# Cycles to 80 pct retention: 220
+# DOI: 10.1016/j.energy.2018.12.099
+"# Source: He et al., Energy 170 (2019)"
+# NOTE: Digitised from published figure; not a raw-data download. See src/reference_data.py.
+cycle,capacity_retention
+1,1.000
+20,0.985
+40,0.968
+60,0.948
+80,0.928
+100,0.905
+120,0.880
+140,0.855
+160,0.830
+180,0.810
+200,0.790
+220,0.770

@@ -1,0 +1,8 @@
+protocol,label,peak_avg_c,peak_centre_c,peak_edge_c,centre_edge_grad_c
+cc_cv_1C,1C CC-CV,32.7,32.8,32.6,0.1
+cc_cv_2C,2C CC-CV,44.7,45.0,44.6,0.4
+cc_cv_3C,3C CC-CV,57.0,57.4,56.8,0.6
+boost_4C,Boost 4C→2C,48.7,49.0,48.5,0.5
+mcc_21,MCC 2C-1C,40.1,40.3,40.0,0.3
+mcc_321,MCC 3C-2C-1C,49.0,49.3,48.8,0.5
+mcc_432,MCC 4C-3C-2C,53.6,53.9,53.4,0.6

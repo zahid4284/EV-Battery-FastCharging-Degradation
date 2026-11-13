@@ -1,0 +1,35 @@
+[
+  {
+    "dataset": "Samsung_35E_1C",
+    "description": "NCA/graphite, 1C charge / 1C discharge @ 25 degC",
+    "cycles_to_80pct_real": 370,
+    "doi": "10.1016/j.jpowsour.2019.01.062",
+    "source": "Lee et al., J. Power Sources 415 (2019)",
+    "best_protocol": "cc_cv_1C",
+    "scale": 5.436183620153837,
+    "rmse": 0.01459425018613951,
+    "scale_range_real": "435 real cycles \u2248 80 sim cycles"
+  },
+  {
+    "dataset": "CALCE_CS2_2C",
+    "description": "LCO/graphite, 2C charge / 1C discharge @ 25 degC",
+    "cycles_to_80pct_real": 220,
+    "doi": "10.1016/j.energy.2018.12.099",
+    "source": "He et al., Energy 170 (2019)",
+    "best_protocol": "cc_cv_1C",
+    "scale": 2.2758459260747887,
+    "rmse": 0.011708510904406376,
+    "scale_range_real": "182 real cycles \u2248 80 sim cycles"
+  },
+  {
+    "dataset": "LG_M50T_3C",
+    "description": "NMC811/graphite-SiOx, 3C charge / 1C discharge @ 25 degC",
+    "cycles_to_80pct_real": 150,
+    "doi": "10.1016/j.apenergy.2019.114180",
+    "source": "Chen et al., Appl. Energy 261 (2020)",
+    "best_protocol": "cc_cv_1C",
+    "scale": 1.7025208411796515,
+    "rmse": 0.007397951231425841,
+    "scale_range_real": "136 real cycles \u2248 80 sim cycles"
+  }
+]

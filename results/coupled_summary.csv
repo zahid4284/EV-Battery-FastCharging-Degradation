@@ -1,0 +1,7 @@
+protocol,label,cycles,charge_time_to_target_min,charge_time_full_min,t_max_charge_c,retention_end_pct,sei_loss_end_ah,plating_loss_end_ah
+cc_cv_1C,CC-CV 1C (baseline),40,45.6,74.2,37.6,93.1,0.07,0.2949
+cc_cv_2C,CC-CV 2C,40,24.0,47.8,54.7,94.4,0.0684,0.2222
+boost_4C,Boost 4C -> 2C,40,23.5,47.2,54.9,94.4,0.0683,0.2214
+mcc_21,MCC 2C-1C,40,28.7,55.1,54.0,93.9,0.0693,0.2521
+mcc_432,MCC 4C-3C-2C,40,18.0,39.3,68.1,94.5,0.0688,0.1992
+mcc_321,MCC 3C-2C-1C,40,24.5,49.9,63.0,94.1,0.0699,0.2382

@@ -1,0 +1,22 @@
+h_wm2k,protocol,label,t_max_charge_c
+1.0,cc_cv_1C,CC-CV 1C (baseline),76.2
+1.0,cc_cv_2C,CC-CV 2C,103.6
+1.0,cc_cv_3C,CC-CV 3C,123.3
+1.0,boost_4C,Boost 4C -> 2C,125.2
+1.0,mcc_21,MCC 2C-1C,98.5
+1.0,mcc_432,MCC 4C-3C-2C,128.7
+1.0,mcc_321,MCC 3C-2C-1C,112.4
+10.0,cc_cv_1C,CC-CV 1C (baseline),37.6
+10.0,cc_cv_2C,CC-CV 2C,54.7
+10.0,cc_cv_3C,CC-CV 3C,69.9
+10.0,boost_4C,Boost 4C -> 2C,55.0
+10.0,mcc_21,MCC 2C-1C,54.1
+10.0,mcc_432,MCC 4C-3C-2C,68.4
+10.0,mcc_321,MCC 3C-2C-1C,63.4
+100.0,cc_cv_1C,CC-CV 1C (baseline),26.7
+100.0,cc_cv_2C,CC-CV 2C,30.5
+100.0,cc_cv_3C,CC-CV 3C,39.8
+100.0,boost_4C,Boost 4C -> 2C,30.6
+100.0,mcc_21,MCC 2C-1C,30.5
+100.0,mcc_432,MCC 4C-3C-2C,44.4
+100.0,mcc_321,MCC 3C-2C-1C,30.6

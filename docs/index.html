@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV Battery Fast-Charging Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b1120;
+      --bg2: #111827;
+      --bg3: #1e293b;
+      --ink: #f1f5f9;
+      --muted: #94a3b8;
+      --rule: #334155;
+      --accent: #3b82f6;
+      --accent2: #22d3ee;
+      --accent3: #a78bfa;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --good: #10b981;
+      --font: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      --max: 1200px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse 80% 40% at 10% 0%, rgba(59,130,246,0.15), transparent 60%),
+        radial-gradient(ellipse 60% 30% at 90% 20%, rgba(34,211,238,0.10), transparent 55%),
+        radial-gradient(ellipse 100% 50% at 50% 100%, rgba(167,139,250,0.08), transparent 60%),
+        var(--bg);
+      background-attachment: fixed;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* Nav */
+    nav.top {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(11,17,32,0.75);
+      border-bottom: 1px solid rgba(148,163,184,0.12);
+    }
+    .nav-inner {
+      max-width: var(--max); margin: 0 auto; padding: 0.8rem 1.2rem;
+      display: flex; align-items: center; gap: 1.5rem;
+    }
+    .brand {
+      font-weight: 700; font-size: 1.05rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: flex; align-items: center; gap: 0.55rem;
+    }
+    .brand .bolt {
+      -webkit-text-fill-color: var(--accent2);
+    }
+    .nav-links { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+    .nav-links a {
+      font-size: 0.82rem; text-decoration: none; color: var(--muted);
+      padding: 0.35rem 0.75rem; border-radius: 6px;
+      transition: all .18s ease;
+    }
+    .nav-links a:hover { color: var(--ink); background: rgba(148,163,184,0.10); }
+    .nav-links a.active {
+      color: var(--ink);
+      background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(34,211,238,0.15));
+    }
+    .nav-spacer { flex: 1; }
+    .nav-meta { font-size: 0.72rem; color: var(--muted); font-family: var(--font-mono); }
+
+    main { max-width: var(--max); margin: 0 auto; padding: 2rem 1.2rem 4rem; }
+
+    /* Hero */
+    .hero {
+      padding: 2.5rem 0 2rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700;
+      line-height: 1.15; letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff, #cbd5e1);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero .sub { color: var(--muted); font-size: 1.0rem; max-width: 700px; }
+    .hero .chips { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+    .chip {
+      font-size: 0.75rem; padding: 0.3rem 0.7rem; border-radius: 999px;
+      background: rgba(59,130,246,0.15); color: var(--accent2);
+      border: 1px solid rgba(59,130,246,0.3);
+      font-family: var(--font-mono);
+    }
+
+    /* Metric cards */
+    .metrics {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem; margin: 1.5rem 0 2.5rem;
+    }
+    .metric {
+      background: linear-gradient(135deg, rgba(30,41,59,0.85), rgba(17,24,39,0.85));
+      border: 1px solid rgba(148,163,184,0.12);
+      border-radius: 14px; padding: 1.2rem 1.3rem;
+      position: relative; overflow: hidden;
+    }
+    .metric::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .metric .label { font-size: 0.78rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .metric .value {
+      font-family: var(--font-mono); font-size: 1.9rem; font-weight: 700;
+      margin-top: 0.35rem; line-height: 1.1;
+      background: linear-gradient(135deg, var(--ink), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .metric .delta { font-size: 0.78rem; color: var(--muted); margin-top: 0.35rem; }
+    .metric.good .value { background: linear-gradient(135deg, var(--good), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .metric.warn .value { background: linear-gradient(135deg, var(--warn), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .metric.danger .value { background: linear-gradient(135deg, var(--danger), var(--warn)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+    /* Section */
+    section.block {
+      margin-bottom: 3rem; padding-top: 0.5rem;
+    }
+    .section-head {
+      display: flex; align-items: baseline; gap: 0.75rem; margin-bottom: 1.2rem;
+    }
+    .section-head h2 {
+      font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em;
+    }
+    .section-head .badge {
+      font-size: 0.7rem; font-family: var(--font-mono);
+      padding: 0.2rem 0.5rem; border-radius: 4px;
+      background: rgba(59,130,246,0.2); color: var(--accent2);
+      border: 1px solid rgba(59,130,246,0.4);
+    }
+    .section-head .desc { font-size: 0.88rem; color: var(--muted); }
+
+    /* Panels (chart containers) */
+    .panels {
+      display: grid; gap: 1rem;
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .panel {
+      background: linear-gradient(135deg, rgba(30,41,59,0.75), rgba(17,24,39,0.85));
+      border: 1px solid rgba(148,163,184,0.10);
+      border-radius: 14px; padding: 1.2rem;
+      backdrop-filter: blur(8px);
+    }
+    .panel h3 {
+      font-size: 0.92rem; font-weight: 700; color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .panel .panel-desc { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.8rem; }
+    .chart-figure { margin: 0; }
+    .chart-figure figcaption { font-size: 0.9rem; font-weight: 600; color: var(--ink); margin-bottom: 0.6rem; }
+    .chart-box { width: 100%; min-height: 340px; }
+    .chart-box.tall { min-height: 480px; }
+    .chart-box.short { min-height: 240px; }
+
+    /* Col spans */
+    .span-12 { grid-column: span 12; }
+    .span-8  { grid-column: span 8; }
+    .span-6  { grid-column: span 6; }
+    .span-4  { grid-column: span 4; }
+    .span-7  { grid-column: span 7; }
+    .span-5  { grid-column: span 5; }
+
+    /* Observation callouts */
+    .obs {
+      font-size: 0.85rem; color: var(--muted);
+      border-left: 2px solid var(--accent);
+      padding: 0.5rem 0.8rem; margin-top: 0.7rem;
+      background: rgba(59,130,246,0.06); border-radius: 0 6px 6px 0;
+    }
+    .obs strong { color: var(--ink); }
+
+    /* Table */
+    .table-wrap { overflow-x: auto; overflow-y: auto; max-height: 600px; border-radius: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th, td { padding: 0.55rem 0.75rem; text-align: left; }
+    thead th {
+      background: rgba(59,130,246,0.15); color: var(--accent2);
+      font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.06em;
+      text-transform: uppercase; position: sticky; top: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    tbody tr { border-bottom: 1px solid rgba(51,65,85,0.5); }
+    tbody tr:hover { background: rgba(59,130,246,0.06); }
+    td.num { font-family: var(--font-mono); color: var(--accent2); }
+    td.hot { color: var(--danger); font-weight: 600; }
+    td.cool { color: var(--good); }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(148,163,184,0.1); margin-top: 3rem; padding-top: 1.5rem;
+      font-size: 0.78rem; color: var(--muted); text-align: center;
+    }
+    footer a { color: var(--accent2); text-decoration: none; }
+
+    /* Responsive */
+    @media (max-width: 800px) {
+      .span-8, .span-7, .span-6, .span-5, .span-4 { grid-column: span 12; }
+      .nav-links { display: none; }
+      main { padding: 1rem 0.8rem 3rem; }
+      .hero { padding: 1.5rem 0 1rem; }
+    }
+
+    mark.key { background: none; color: var(--accent2); font-weight: 600; }
+
+    /* Table-wrap mobile */
+    @media (max-width: 600px) {
+      table { min-width: 500px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="top">
+  <div class="nav-inner">
+    <div class="brand"><span class="bolt">⚡</span> EV Battery Dashboard</div>
+    <div class="nav-links">
+      <a href="#overview" class="active">Overview</a>
+      <a href="#ageing">Ageing</a>
+      <a href="#thermal">Thermal</a>
+      <a href="#cooling">Cooling</a>
+      <a href="#calibration">Calibration</a>
+      <a href="#pack">Pack</a>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-meta">4 milestones · PyBaMM SPMe</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============== HERO / OVERVIEW ============== -->
+<section id="overview" class="block">
+  <div class="hero">
+    <h1>Fast-charging degradation<br>& thermal simulation</h1>
+    <p class="sub">
+      I ran 7 charging protocols on a 21700 NMC cell with PyBaMM — tracked degradation
+      over cycles, mapped thermal behaviour, calibrated against real NASA/CALCE battery
+      data, and finally scaled everything up to a 96-cell pack.
+    </p>
+    <div class="chips">
+      <span class="chip">PyBaMM 24.1</span>
+      <span class="chip">SPMe electrochemistry</span>
+      <span class="chip">SEI + Li plating</span>
+      <span class="chip">NASA / CALCE calibration</span>
+      <span class="chip">96-cell pack</span>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric good">
+      <div class="label">Best ageing protocol</div>
+      <div class="value">MCC 2C-1C</div>
+      <div class="delta">6.6 min quicker than 1C, 89.5% capacity left after 40 cycles</div>
+    </div>
+    <div class="metric danger">
+      <div class="label">Worst-case peak temp</div>
+      <div class="value">57.5 °C</div>
+      <div class="delta">CC-CV 3C, 96-cell pack, at baseline cooling (h=10)</div>
+    </div>
+    <div class="metric warn">
+      <div class="label">Cycle calibration</div>
+      <div class="value">13×</div>
+      <div class="delta">1 simulated cycle ≈ 13 real 1C cycles (NASA B0005)</div>
+    </div>
+    <div class="metric">
+      <div class="label">Centre–edge ΔT</div>
+      <value style="display:none"></value>
+      <div class="value">0.3 °C</div>
+      <div class="delta">96-cell pack, centre cells sit 0.1–0.5 °C above edges</div>
+    </div>
+  </div>
+
+  <!-- Protocol ranking table -->
+  <div class="panels">
+    <div class="panel span-12">
+      <h3>Protocol ranking — all milestones at a glance</h3>
+      <div class="panel-desc">Baseline cooling h = 10 W m⁻² K⁻¹. CC-CV 3C didn't converge with the plating model so it's missing from the ageing side — the solver blows up at extreme C-rates. Not a physical failure.</div>
+      <div class="table-wrap">
+        <table id="ranking-table">
+          <thead>
+            <tr>
+              <th>Protocol</th>
+              <th>Charge to 80% (min)</th>
+              <th>Retention @ 40 cyc</th>
+              <th>Peak T single</th>
+              <th>Peak T pack</th>
+              <th>Peak T h=1</th>
+              <th>Peak T h=100</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AGEING ============== -->
+<section id="ageing" class="block">
+  <div class="section-head">
+    <h2>Milestone 1 · Accelerated ageing</h2>
+    <span class="badge">isothermal 25 °C · 40 cycles</span>
+    <span class="desc">SEI layer growth plus irreversible lithium plating. Protocols ranked by how much capacity is left after each cycle.</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel span-7">
+      <figure class="chart-figure">
+        <figcaption>Capacity retention vs. cycle number</figcaption>
+        <div id="chart-retention" class="chart-box"></div>
+      </figure>
+    </div>
+
+    <div class="panel span-5">
+      <figure class="chart-figure">
+        <figcaption>Pareto frontier — charge time vs. retention</figcaption>
+        <div id="chart-pareto" class="chart-box"></div>
+      </figure>
+      <p class="obs"><strong>MCC 2C-1C</strong> is the clear sweet spot. 6.6 minutes faster than plain 1C, and only 1.0 percentage point of capacity lost. Nothing else comes close on the Pareto frontier.</p>
+    </div>
+
+    <div class="panel span-6">
+      <figure class="chart-figure">
+        <figcaption>SEI loss vs. plating loss (Ah) per protocol</figcaption>
+        <div id="chart-degmodes" class="chart-box"></div>
+      </figure>
+      <p class="obs"><strong>Lithium plating</strong> is the main problem, not SEI growth. And it gets worse fast with higher C-rates. Plain CC-CV 2C loses 0.555 Ah to plating, but MCC 2C-1C drops that to 0.450 Ah by keeping the first stage moderate.</p>
+    </div>
+
+    <div class="panel span-6">
+      <figure class="chart-figure">
+        <figcaption>Charge time to 80% SOC per protocol</figcaption>
+        <div id="chart-chargetime" class="chart-box"></div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============== THERMAL ============== -->
+<section id="thermal" class="block">
+  <div class="section-head">
+    <h2>Milestone 1 · Thermal baseline</h2>
+    <span class="badge">lumped model · h = 10 W m⁻² K⁻¹</span>
+    <span class="desc">Degradation switched off — just heat from I²R losses and the entropic voltage term.</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel span-6">
+      <figure class="chart-figure">
+        <figcaption>Peak charging temperature (single cell, h = 10)</figcaption>
+        <div id="chart-thermpeaks" class="chart-box"></div>
+      </figure>
+      <p class="obs"><strong>CC-CV 3C hits 70.1 °C</strong> at h = 10. That's way above the 45 °C safety threshold. Actually everything faster than 1C crosses 45 °C — active cooling is mandatory, not optional.</p>
+    </div>
+
+    <div class="panel span-6">
+      <figure class="chart-figure">
+        <figcaption>Temperature during first charge per protocol</figcaption>
+        <div id="chart-profiles" class="chart-box tall"></div>
+      </figure>
+      <p class="obs">Interesting: temperature peaks <strong>before</strong> charge ends, during the CC phase. Once we switch to CV, current drops, heating stops, and the cell starts cooling down while we're still on the tail.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== COOLING SENSITIVITY ============== -->
+<section id="cooling" class="block">
+  <div class="section-head">
+    <h2>Milestone 2 · Cooling sensitivity</h2>
+    <span class="badge">h = 1 / 10 / 100</span>
+    <span class="desc">Same 7 protocols, three different cooling levels — see how much thermal management actually matters.</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel span-12">
+      <figure class="chart-figure">
+        <figcaption>Peak temperature across cooling coefficients</figcaption>
+        <div id="chart-cooling" class="chart-box tall"></div>
+      </figure>
+      <p class="obs">
+        <strong>At h = 100 (good liquid cooling) every single protocol stays under 45 °C.</strong>
+        Even the hottest one, MCC 4C-3C-2C, only reaches 44.4 °C. But at h = 1 — basically
+        natural convection — even CC-CV 1C hits 48.2 °C and CC-CV 3C goes up to 110.5 °C.
+        <mark class="key">Bottom line: thermal management matters more than protocol design for safety.</mark>
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CALIBRATION ============== -->
+<section id="calibration" class="block">
+  <div class="section-head">
+    <h2>Milestone 3 · Real-world calibration</h2>
+    <span class="badge">NASA + CALCE datasets</span>
+    <span class="desc">The model's degradation is accelerated on purpose. Here's how 80 simulated cycles translate to real-world battery life.</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel span-4">
+      <figure class="chart-figure">
+        <figcaption>NASA B0005 (1C / 1C @ 24 °C)</figcaption>
+        <div id="chart-cal-b0005" class="chart-box"></div>
+      </figure>
+    </div>
+
+    <div class="panel span-4">
+      <figure class="chart-figure">
+        <figcaption>NASA B0007 (1C / 1C @ 24 °C)</figcaption>
+        <div id="chart-cal-b0007" class="chart-box"></div>
+      </figure>
+    </div>
+
+    <div class="panel span-4">
+      <figure class="chart-figure">
+        <figcaption>CALCE CS2 (2C / 1C @ 25 °C)</figcaption>
+        <div id="chart-cal-cs2" class="chart-box"></div>
+      </figure>
+    </div>
+  </div>
+
+  <div class="panels" style="margin-top: 1rem;">
+    <div class="panel span-12">
+      <figure class="chart-figure">
+        <figcaption>All three datasets overlaid with their best-fit scale factors</figcaption>
+        <div id="chart-cal-overview" class="chart-box tall"></div>
+      </figure>
+      <div class="obs">
+        Scale factor = real cycles ÷ simulated cycles. The accelerated 80-cycle study covers
+        roughly <strong>1000 real 1C cycles</strong> or <strong>400 real 2C cycles</strong>.
+        <br>NASA 1C/1C → scale ≈ 13–16×. CALCE 2C/1C → scale ≈ 5× (makes sense — 2C kills the cell faster).
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PACK SIMULATION ============== -->
+<section id="pack" class="block">
+  <div class="section-head">
+    <h2>Milestone 4 · 96-cell pack</h2>
+    <span class="badge">8 × 12 grid · thermal coupling</span>
+    <span class="desc">8×12 grid of 21700 cells. Centre cells have less airflow so get ~30% less cooling than edges — realistic pack effect.</span>
+  </div>
+
+  <div class="panels">
+    <div class="panel span-6">
+      <figure class="chart-figure">
+        <figcaption>Pack-averaged temperature vs. time (h = 10)</figcaption>
+        <div id="chart-pack-time" class="chart-box tall"></div>
+      </figure>
+    </div>
+
+    <div class="panel span-6">
+      <figure class="chart-figure">
+        <figcaption>Pack vs. single-cell peak temperature (h = 10)</figcaption>
+        <div id="chart-pack-compare" class="chart-box tall"></div>
+      </figure>
+      <p class="obs">
+        Good news: the protocol ranking doesn't change between single-cell and pack simulations.
+        Centre cells run about 0.1–0.5 °C above edge cells, but the ordering stays the same.
+        So single-cell results do scale up — no surprises at the pack level here.
+      </p>
+    </div>
+  </div>
+
+  <div class="panels" style="margin-top: 1rem;">
+    <div class="panel span-12">
+      <figure class="chart-figure">
+        <figcaption>Pack peak temperature — h = 10 vs. h = 100</figcaption>
+        <div id="chart-pack-cooling" class="chart-box"></div>
+      </figure>
+      <p class="obs">
+        With strong active cooling (h = 100) the whole pack sits at 26–34 °C no matter what protocol we use.
+        That's comfortably inside the safe zone — even at pack level, thermal management is the real answer.
+      </p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  EV Battery Fast-Charging Degradation — Interactive Dashboard
+</footer>
+
+<script src="./_shared/js/echarts.min.js"></script>
+<script src="./assets/charts.js"></script>
+<script>
+  // Smooth scroll for nav + active-state toggling
+  document.querySelectorAll('nav.top .nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelectorAll('nav.top .nav-links a').forEach(x => x.classList.remove('active'));
+      a.classList.add('active');
+    });
+  });
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        document.querySelectorAll('nav.top .nav-links a').forEach(x =>
+          x.classList.toggle('active', x.getAttribute('href') === '#' + id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  document.querySelectorAll('section.block').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
