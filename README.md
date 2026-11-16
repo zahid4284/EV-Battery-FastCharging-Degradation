@@ -270,8 +270,9 @@ results land in `results/` (h = 10) and `results_pack_h100/` (h = 100).
     ├── dashboard.html       # interactive HTML dashboard
     ├── .nojekyll            # disables Jekyll so assets load verbatim
     ├── assets/data.json     # dashboard data (mirror of results/ CSVs)
-    ├── reports/             # Word reports (Milestone 1–4)
+    ├── reports/             # Word reports (Milestone 1–4, plus Milestone 5 coupled)
     ├── generate_full_report.py
+    ├── generate_milestone5_report.py
     ├── SETUP.md
     └── ROADMAP.md
 ```
