@@ -112,9 +112,13 @@ models per cell, inter-cell conduction coupling, and spatially varying cooling
 (centre cells get ~30% less cooling than edge cells).  Results come from
 `src/pack.py`; CLI entry: `python run_experiment.py --mode pack`.
 
-Peak average temperature per protocol, for two cooling coefficients:
+Peak pack-**average** temperature per protocol (the maximum over time of the
+spatial mean across all 96 cells), for two cooling coefficients.  The last
+column is the single-cell DFN peak, shown for context only: it is a different
+quantity (one cell's lumped temperature) from a different heat model, so the
+absolute values are not directly comparable (see the note below).
 
-| Protocol | Pack peak (°C, h=10) | Pack peak (°C, h=100) | Single-cell peak (°C, h=100) |
+| Protocol | Pack peak-avg T (°C, h=10) | Pack peak-avg T (°C, h=100) | Single-cell DFN peak T (°C, h=100) |
 |---|---:|---:|---:|
 | CC-CV 1C | 32.7 | 25.9 | 26.7 |
 | CC-CV 2C | 44.7 | 28.2 | 30.5 |
@@ -124,11 +128,14 @@ Peak average temperature per protocol, for two cooling coefficients:
 | **CC-CV 3C** | **57.0** | 31.8 | 39.8 |
 | MCC 4C-3C-2C | 53.6 | 33.7 | 44.4 |
 
-Centre cells run **0.1–0.7 °C** hotter than edge cells (gradient increases with
-protocol aggression).  The pack is slightly hotter than an equivalent single
-cell: at h = 100 the 3C cell reaches 39.8 °C single-cell vs 31.8 °C in the
-pack — cooling is effectively less uniform in the pack (30 % centre penalty).
-Protocol ranking is identical to the single-cell thermal study.
+Centre cells run **0.1–0.7 °C** hotter than edge cells (the gradient grows with
+protocol aggression).  Absolute pack temperatures are *lower* than in the
+single-cell DFN study: the pack uses a lumped I²R + entropic heat source that
+is smaller than the DFN's total heat generation, so at h = 100 the 3C pack
+peaks at 31.8 °C (pack average) versus 39.8 °C for the single cell.  What the
+pack adds is the spatial structure — the centre–edge gradient and the effect of
+non-uniform cooling — not an absolute temperature offset.  Protocol ranking is
+identical to the single-cell thermal study.
 
 > **Note on the pack model.** The 96-cell pack uses a *simplified lumped-thermal*
 > model per cell (Ohmic heat from per-protocol current profiles + a

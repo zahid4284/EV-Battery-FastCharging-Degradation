@@ -54,11 +54,12 @@ COUPLING_K = 5.0               # W K-1 (higher: cells sit tightly together)
 AMBIENT_C = 25.0               # °C — cooling-plate temperature
 
 # --- Cell-level resistance ---
-# R_REF ≈ 15 mΩ total (ohmic + activation) for a 21700 NMC cell.  With this
-# value, at h = 10 W m-2 K-1 the 2C and 3C peak temperatures (54.7 and 69.9 °C)
-# are broadly consistent with the single-cell PyBaMM thermal study.  The value
-# is not a fit to experimental data — it is a reasonable cell resistance that
-# produces physically plausible temperature trends.
+# R_REF ≈ 15 mΩ total (ohmic + activation) for a 21700 NMC cell — a reasonable
+# order-of-magnitude value, not a fit to experimental data.  Because the pack's
+# heat source is a lumped I²R + entropic term, it is smaller than the DFN's
+# total heat generation: at h = 10 W m-2 K-1 this gives pack peaks of 44.7 °C
+# (2C) and 57.0 °C (3C), below the single-cell DFN values (54.7 and 69.9 °C).
+# The absolute offset is expected; the pack's purpose is the spatial gradient.
 R_REF = 0.015                   # Ohm at 25 C
 Ea_R = 1200.0                   # J/mol (reduced sensitivity vs. crude model)
 R_GAS = 8.314                   # J/mol K
