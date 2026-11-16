@@ -56,9 +56,9 @@ AMBIENT_C = 25.0               # °C — cooling-plate temperature
 # --- Cell-level resistance ---
 # R_REF ≈ 15 mΩ total (ohmic + activation) for a 21700 NMC cell — a reasonable
 # order-of-magnitude value, not a fit to experimental data.  Because the pack's
-# heat source is a lumped I²R + entropic term, it is smaller than the DFN's
+# heat source is a lumped I²R + entropic term, it is smaller than the SPMe's
 # total heat generation: at h = 10 W m-2 K-1 this gives pack peaks of 44.7 °C
-# (2C) and 57.0 °C (3C), below the single-cell DFN values (54.7 and 69.9 °C).
+# (2C) and 57.0 °C (3C), below the single-cell SPMe values (54.7 and 69.9 °C).
 # The absolute offset is expected; the pack's purpose is the spatial gradient.
 R_REF = 0.015                   # Ohm at 25 C
 Ea_R = 1200.0                   # J/mol (reduced sensitivity vs. crude model)

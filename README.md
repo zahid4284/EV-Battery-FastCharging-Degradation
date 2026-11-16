@@ -114,11 +114,11 @@ models per cell, inter-cell conduction coupling, and spatially varying cooling
 
 Peak pack-**average** temperature per protocol (the maximum over time of the
 spatial mean across all 96 cells), for two cooling coefficients.  The last
-column is the single-cell DFN peak, shown for context only: it is a different
+column is the single-cell SPMe peak, shown for context only: it is a different
 quantity (one cell's lumped temperature) from a different heat model, so the
 absolute values are not directly comparable (see the note below).
 
-| Protocol | Pack peak-avg T (°C, h=10) | Pack peak-avg T (°C, h=100) | Single-cell DFN peak T (°C, h=100) |
+| Protocol | Pack peak-avg T (°C, h=10) | Pack peak-avg T (°C, h=100) | Single-cell SPMe peak T (°C, h=100) |
 |---|---:|---:|---:|
 | CC-CV 1C | 32.7 | 25.9 | 26.7 |
 | CC-CV 2C | 44.7 | 28.2 | 30.5 |
@@ -130,8 +130,8 @@ absolute values are not directly comparable (see the note below).
 
 Centre cells run **0.1–0.7 °C** hotter than edge cells (the gradient grows with
 protocol aggression).  Absolute pack temperatures are *lower* than in the
-single-cell DFN study: the pack uses a lumped I²R + entropic heat source that
-is smaller than the DFN's total heat generation, so at h = 100 the 3C pack
+single-cell SPMe study: the pack uses a lumped I²R + entropic heat source that
+is smaller than the SPMe's total heat generation, so at h = 100 the 3C pack
 peaks at 31.8 °C (pack average) versus 39.8 °C for the single cell.  What the
 pack adds is the spatial structure — the centre–edge gradient and the effect of
 non-uniform cooling — not an absolute temperature offset.  Protocol ranking is
